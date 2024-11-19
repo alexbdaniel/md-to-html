@@ -28,8 +28,12 @@ public static class FileOpener
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
+            const string edgePath = @"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe";
             const string firefoxPath = @"C:\Program Files\Mozilla Firefox\firefox.exe";
-            Process.Start(firefoxPath, fileFullPath);
+
+            string exeFullPath = File.Exists(firefoxPath) ? firefoxPath : edgePath;
+            
+            Process.Start(exeFullPath, fileFullPath);
             return;
         }
     }

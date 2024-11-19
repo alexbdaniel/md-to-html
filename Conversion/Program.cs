@@ -20,6 +20,8 @@ internal static class Program
 
     private static async Task RunAsync(CommandLineOptions args)
     {
+        bool argsValid = OptionsValidator.ValidateCommandLineOptions(args);
+        
         HostApplicationBuilder builder = Host.CreateApplicationBuilder();
 
         builder.Configuration
