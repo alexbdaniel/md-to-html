@@ -1,3 +1,4 @@
+using System;
 using Conversion.Creation;
 using JetBrains.Annotations;
 using Xunit;
@@ -11,6 +12,6 @@ public class ConverterTest
     [Fact]
     public void METHOD()
     {
-        
+        string appDataDirectoryName = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
     }
 }
