@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conversion", "Conversion\Conversion.csproj", "{53AB0685-7C8C-4D8A-BB42-6D58B1D42BC8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9D4A5592-BCE7-4661-9250-B4F29E1090EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0AFC99D3-BFD8-4C2B-83C6-A1E4C5891632}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53AB0685-7C8C-4D8A-BB42-6D58B1D42BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53AB0685-7C8C-4D8A-BB42-6D58B1D42BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53AB0685-7C8C-4D8A-BB42-6D58B1D42BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53AB0685-7C8C-4D8A-BB42-6D58B1D42BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{53AB0685-7C8C-4D8A-BB42-6D58B1D42BC8} = {9D4A5592-BCE7-4661-9250-B4F29E1090EB}
+	EndGlobalSection
+EndGlobal
