@@ -1,9 +1,12 @@
 #nullable enable
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Conversion.Configuration;
 using Conversion.Creation;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Hosting.Internal;
@@ -58,33 +61,48 @@ public class ConverterTest
             Port = latestRelease.Port,
             Path = $"{profile}/{repository}/archive/refs/tags/{tag}.zip"
         }.Uri;
-
-        string tempFileFullPath = Path.GetTempFileName();
-
+        
         var downloadResponse = await client.GetAsync(downloadUri);
-        await using (var stream = new FileStream(tempFileFullPath, FileMode.OpenOrCreate))
-        {
-            await downloadResponse.Content.CopyToAsync(stream);
-            stream.Close();
-            // console.WriteLine(downloadUri.ToString());
-        }
-        
-        HandleTempFile(tempFileFullPath);
-        
-        
-        
+
+        await HandleSaveAsync(downloadResponse.Content);
         //https://github.com/alexbdaniel/md-to-html-templates/archive/refs/tags/1.0.2.zip
 
     }
 
-    public void HandleTempFile(string tempFileFullPath)
+    public async Task HandleSaveAsync(HttpContent content, bool overwrite = false)
     {
-        string newFullPath = Path.ChangeExtension(tempFileFullPath, ".zip");
-        new FileInfo(tempFileFullPath).MoveTo(newFullPath);
         
-        console.WriteLine(newFullPath);
+        DirectoryInfo tempDir = Directory.CreateTempSubdirectory();
+        ZipFile.ExtractToDirectory(await content.ReadAsStreamAsync(), tempDir.FullName, Encoding.UTF8, false);
+        
+        DirectoryInfo configurationDirectory = ConfigurationOptions.ConfigurationDirectory;
+        DirectoryInfo contentsDirectory = tempDir.GetDirectories().First();
+        
+        DirectoryInfo[] directories = contentsDirectory.GetDirectories();
+        foreach (var directory in directories)
+        {
+            string destDirName = Path.Combine(configurationDirectory.FullName, directory.Name);
+            if (overwrite && Directory.Exists(destDirName))
+            {
+                Directory.Delete(destDirName, true);
+                directory.MoveTo(destDirName);
+            }
+            else if (Directory.Exists(destDirName) == false)
+            {
+                directory.MoveTo(destDirName);
+            }
+        }
 
+        FileInfo[] files = contentsDirectory.GetFiles();
+        foreach (var file in files)
+        {
+            file.MoveTo(configurationDirectory.FullName, overwrite);
+        }
+        
+        tempDir.Delete(true);
     }
+
+
     
     public static Uri AppendUri(Uri uri, params string[] paths)
     {
