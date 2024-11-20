@@ -21,7 +21,7 @@ public class Converter
         HtmlDocument document = await parser.ParseAsync(markdownFilePath);
         string content = document.DocumentNode.OuterHtml;
         
-        BuildHead(content);
+        BuildHead(content, parser.Header1);
         
         string toc = TocBuilder.BuildToc(document);
         BuildBody(content, toc);
@@ -79,9 +79,10 @@ public class Converter
     /// Builds head and meta parts.
     /// </summary>
     /// <param name="content"></param>
-    private void BuildHead(string content)
+    /// <param name="title">Text for HTML document title</param>
+    private void BuildHead(string content, string? title)
     {
-        string title = GetHtmlTagContent(content, "<h1>","</h1>");
+        title ??= "Document";
         const string parts1 = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>";
         
         builder.Append(parts1);

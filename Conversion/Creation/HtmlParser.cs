@@ -16,9 +16,10 @@ public class HtmlParser
         const string xpath = "//*[self::h1 or self::h2 or self::h3]";
         var nodes = document.DocumentNode.SelectNodes(xpath);
 
+        
         foreach (HtmlNode node in nodes)
         {
-            SetHeader1(node.Name);
+            SetHeader1(node);
             
             string text = node.InnerText;
 
@@ -31,20 +32,19 @@ public class HtmlParser
 
             node.Id = id;
         }
-
+        
         return document;
     }
 
-    private void SetHeader1(string nodeName)
+    private void SetHeader1(HtmlNode node)
     {
         if (Header1 != null)
            return;
 
-        nodeName = nodeName.ToLower().Trim();
-        if (nodeName != "h1")
+        if (node.Name.ToLower().Trim() != "h1")
             return;
 
-        Header1 = nodeName;
+        Header1 = node.InnerText;
     }
     
     private async Task<string> GetMarkdownAsHtmlString(string markdownFilePath)
