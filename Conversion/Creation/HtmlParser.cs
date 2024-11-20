@@ -6,6 +6,7 @@ namespace Conversion.Creation;
 public class HtmlParser
 {
     public string? Header1;
+    public string? Title;
     
     public async Task<HtmlDocument> ParseAsync(string markdownFilePath)
     {
@@ -15,7 +16,6 @@ public class HtmlParser
         
         const string xpath = "//*[self::h1 or self::h2 or self::h3]";
         var nodes = document.DocumentNode.SelectNodes(xpath);
-
         
         foreach (HtmlNode node in nodes)
         {
@@ -32,6 +32,10 @@ public class HtmlParser
 
             node.Id = id;
         }
+
+        HtmlNode? title = document.DocumentNode.SelectSingleNode("//title");
+        if (title != null)
+            Title = title.InnerText;
         
         return document;
     }
