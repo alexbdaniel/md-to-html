@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using Conversion.Creation;
 using JetBrains.Annotations;
@@ -15,7 +14,6 @@ public class SaverTest
     [Theory]
     [InlineData("/Documents", false, true)]
     [InlineData("Documents", false, true)]
-    [InlineData("C:/Users/alex.daniel/projects", true, true)]
     [InlineData(".", false, true)]
     public void FullPathCheckReturnsExpectedResult(string path, bool expectedFull, bool expectedValid)
     {

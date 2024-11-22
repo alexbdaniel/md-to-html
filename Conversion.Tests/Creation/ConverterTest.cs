@@ -6,11 +6,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Conversion.Creation;
 using JetBrains.Annotations;
-using Microsoft.Extensions.Hosting.Internal;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace Conversion.Tests.Creation;
 
@@ -27,7 +24,6 @@ public class ConverterTest
     [Fact]
     public async Task SandboxDownloadConfigurationFiles()
     {
-        const string saveDirectoryName = "";
         const string latestUrl = "https://github.com/alexbdaniel/md-to-html-templates/releases/latest";
 
         
@@ -77,7 +73,7 @@ public class ConverterTest
 
     }
 
-    public void HandleTempFile(string tempFileFullPath)
+    private void HandleTempFile(string tempFileFullPath)
     {
         string newFullPath = Path.ChangeExtension(tempFileFullPath, ".zip");
         new FileInfo(tempFileFullPath).MoveTo(newFullPath);

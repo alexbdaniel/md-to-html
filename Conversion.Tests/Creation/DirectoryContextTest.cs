@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Mime;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace Conversion.Tests.Creation;
 
