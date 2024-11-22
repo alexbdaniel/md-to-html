@@ -24,7 +24,7 @@ public class Creator
         string html = await converter.ConvertAsync(args.MarkdownFilePath);
 
         string outputFullPath = Saver.GetFullPath(args.OutputDirectoryName);
-        await Saver.SaveAsync(html, outputFullPath);
+        await Saver.SaveAsync(html, outputFullPath, logger);
 
         if (args.OpenOnCompletion || args.OpenWithBrowser)
             FileOpener.OpenFile(outputFullPath, args.OpenWithBrowser);

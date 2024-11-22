@@ -12,10 +12,15 @@ internal static class Program
 {
     private static async Task Main(string[] args)
     {
-        var parserResults = Parser.Default.ParseArguments<CommandLineOptions>(args);
+        var parser = new Parser(configuration =>
+        {
+            configuration.GetoptMode = true;
+        });
+        
+        var parserResults = parser.ParseArguments<CommandLineOptions>(args);
 
         await parserResults.WithParsedAsync(RunAsync);
-        Console.WriteLine($"Exit code = {Environment.ExitCode}");
+        // Console.WriteLine($"Exit code = {Environment.ExitCode}");
     }
 
     private static async Task RunAsync(CommandLineOptions args)
@@ -25,7 +30,7 @@ internal static class Program
         HostApplicationBuilder builder = Host.CreateApplicationBuilder();
 
         builder.Configuration
-            .SetBasePath(Directory.GetCurrentDirectory())
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile("appsettings.json", false)
             .SetEnvironmentNameFromAppSettings(ref builder)
             .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLower()}.json", true)
@@ -40,7 +45,7 @@ internal static class Program
         
         var services = builder.Services;
         
-        services.ConfigureServices(builder);
+        services.ConfigureServices(builder, args);
         
         await using var provider = services.BuildServiceProvider();
         
